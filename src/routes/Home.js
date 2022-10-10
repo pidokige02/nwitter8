@@ -8,13 +8,16 @@ const Home = ({ userObj }) => {
 
   useEffect(() => {
     // realtime 처리를 위해 필요한 method
-    dbService.collection("nweets").onSnapshot((snapshot) => {
-      const nweetArray = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setNweets(nweetArray);
-    });
+    dbService
+      .collection("nweets")
+      .orderBy("createdAt", "desc")
+      .onSnapshot((snapshot) => {
+        const nweetArray = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setNweets(nweetArray);
+      });
   }, []);
 
   return (
